@@ -1,15 +1,13 @@
-from django.shortcuts import render
 from .models import BooksAPI
-from rest_framework import generics, mixins
+from rest_framework import generics
 from .serializers import BooksSerializer
 
 
-class BookList(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+class BookList(generics.ListCreateAPIView):
     queryset = BooksAPI.objects.all()
     serializer_class = BooksSerializer
 
-    def get(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
 
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
+class BookDetails(generics.RetrieveUpdateDestroyAPIView):
+    queryset = BooksAPI.objects.all()
+    serializer_class = BooksSerializer
